@@ -260,6 +260,39 @@ document.addEventListener("DOMContentLoaded", () => {
         switchTask(e.target.value);
     });
 
+    // Premium Theme toggler handler
+    if (DOM.themeToggle) {
+        DOM.themeToggle.addEventListener("click", () => {
+            const isDark = DOM.body.classList.contains("dark-theme");
+            if (isDark) {
+                DOM.body.classList.remove("dark-theme");
+                DOM.body.classList.add("light-theme");
+                DOM.themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            } else {
+                DOM.body.classList.remove("light-theme");
+                DOM.body.classList.add("dark-theme");
+                DOM.themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            }
+            // Retrigger active canvas renderers to align SVG styling to the new theme colors
+            if (State.currentTask === "task1" && State.activeTab === "explorer-tab") {
+                renderActiveChart();
+            } else if (State.currentTask === "task2" && State.activeTab === "explorer-tab") {
+                renderPreprocessingLab();
+            } else if (State.currentTask === "task3" && State.activeTab === "explorer-tab") {
+                renderEDALaboratory();
+            } else if (State.currentTask === "task5" && State.activeTab === "explorer-tab") {
+                renderPredictiveLab();
+            }
+        });
+    }
+
+    // Technical Report PDF print handler
+    if (DOM.printBtn) {
+        DOM.printBtn.addEventListener("click", () => {
+            window.print();
+        });
+    }
+
     /* ==========================================================================
        2. Tabs Navigation System
        ========================================================================== */
