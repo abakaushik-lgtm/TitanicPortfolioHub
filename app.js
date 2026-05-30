@@ -178,6 +178,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function switchTask(taskId) {
         State.currentTask = taskId;
 
+        // Synchronize the task switcher UI dropdown value
+        if (DOM.taskSwitcher) {
+            DOM.taskSwitcher.value = taskId;
+        }
+
         // Reset visibility of all tasks first
         const taskContainers = [
             DOM.task1Slides, DOM.task2Slides, DOM.task3Slides, DOM.task4Slides, DOM.task5Slides,
@@ -1607,6 +1612,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const isT1 = (State.currentTask === "task1");
         const isT2 = (State.currentTask === "task2");
         const isT3 = (State.currentTask === "task3");
+        const isT4 = (State.currentTask === "task4");
+        const isT5 = (State.currentTask === "task5");
         
         const sections = isT1 
             ? document.querySelectorAll("#task1-report-body .report-section") 
@@ -1614,7 +1621,9 @@ document.addEventListener("DOMContentLoaded", () => {
             ? document.querySelectorAll("#task2-report-body .report-section")
             : isT3
             ? document.querySelectorAll("#task3-report-body .report-section")
-            : document.querySelectorAll("#task4-report-body .report-section");
+            : isT4
+            ? document.querySelectorAll("#task4-report-body .report-section")
+            : document.querySelectorAll("#task5-report-body .report-section");
         
         const links = isT1 
             ? DOM.task1ReportToc.querySelectorAll(".toc-link") 
@@ -1622,7 +1631,9 @@ document.addEventListener("DOMContentLoaded", () => {
             ? DOM.task2ReportToc.querySelectorAll(".toc-link")
             : isT3
             ? DOM.task3ReportToc.querySelectorAll(".toc-link")
-            : DOM.task4ReportToc.querySelectorAll(".toc-link");
+            : isT4
+            ? DOM.task4ReportToc.querySelectorAll(".toc-link")
+            : DOM.task5ReportToc.querySelectorAll(".toc-link");
 
         if (State.activeTab !== "report-tab") return;
         
@@ -1662,13 +1673,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 const isT1 = (State.currentTask === "task1");
                 const isT2 = (State.currentTask === "task2");
                 const isT3 = (State.currentTask === "task3");
+                const isT4 = (State.currentTask === "task4");
+                const isT5 = (State.currentTask === "task5");
                 const links = isT1 
                     ? DOM.task1ReportToc.querySelectorAll(".toc-link") 
                     : isT2
                     ? DOM.task2ReportToc.querySelectorAll(".toc-link")
                     : isT3
                     ? DOM.task3ReportToc.querySelectorAll(".toc-link")
-                    : DOM.task4ReportToc.querySelectorAll(".toc-link");
+                    : isT4
+                    ? DOM.task4ReportToc.querySelectorAll(".toc-link")
+                    : DOM.task5ReportToc.querySelectorAll(".toc-link");
                 
                 links.forEach(l => l.classList.remove("active"));
                 link.classList.add("active");
@@ -1997,6 +2012,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    DOM.tourNextBtn.addEventListener("click", () => {
+        if (State.t4ActiveChapter < 4) {
+            State.t4ActiveChapter++;
+            renderStorytellingDashboard();
+        }
     });
 
     /* ==========================================================================
